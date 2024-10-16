@@ -1,0 +1,58 @@
+{
+    "variables": {
+        "aws_access_key": "",
+        "aws_secret_key": "",
+        "ami_name" : "nextjs-ami-{{env `VERSION`}}-{{env `CI_COMMIT_SHORT_SHA`}}-{{env `COMMIT_HASH`}}-{{timestamp}}"
+      },
+      "builders" : [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "ap-south-1",
+        "source_ami_filter": {
+            "filters": {
+            "virtualization-type": "hvm",
+            "image-id": "ami-08718895af4dfa033",
+            "root-device-type": "ebs"
+            },
+            "owners": ["137112412989"],
+            "most_recent": true
+          },
+          "instance_type": "t2.micro",
+          "ssh_username": "ec2-user",
+          "ami_name": "{{user `ami_name`}}"
+      }],
+      "provisioners" :[
+        {
+            "type": "file",
+            "source": "scripts",
+            "destination": "/home/ec2-user/"
+          },    
+          {
+            "type": "shell",
+            "scripts": [
+              "scripts/prepare.sh"
+            ]
+          },
+          {
+            "type": "file",
+            "source": "ansible",
+            "destination": "/home/ec2-user/"
+          },  
+          {
+            "type": "ansible",
+            "playbook_file": "ansible/setup_playbook.yml",
+            "user": "ec2-user",
+            "extra_arguments": [
+              "--become" , "-e ANSIBLE_CONFIG=/home/ec2-user/ansible/ansible.cfg"
+            ]
+          },
+          {
+            "type": "shell",
+            "scripts": [
+              "scripts/cleanup.sh"
+            ]
+          }
+      ]
+
+}

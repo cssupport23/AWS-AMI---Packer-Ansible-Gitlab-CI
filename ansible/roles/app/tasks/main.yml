@@ -1,0 +1,28 @@
+---
+- name: Clone the App repository using HTTP with credentials
+  git:
+    repo: "http://{{ username }}:{{ personal_access_token }}@{{ app_rep }}"
+    dest: /var/www/html
+    version: "{{ version }}"
+    clone: yes
+    update: yes
+    force: yes
+
+
+- name: verify 
+  shell: |
+    pwd
+    whoami
+    ls -alh /var/www/html
+    
+  register: command_output
+
+- name: Print the output of the shell command
+  debug:
+    var: command_output.stdout
+
+- name: Run npm install in the application directory
+  command: npm install
+  args:
+    chdir: /var/www/html
+

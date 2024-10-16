@@ -1,0 +1,21 @@
+---
+- name: install basic packages 
+  yum: 
+    update_cache: yes
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - tree
+    - vim
+    - htop
+    - mlocate
+    - npm
+    - nodejs
+  tags: [ 'packages' ]
+
+- name: update all packages, including kernel
+  yum:
+    name: "*"
+    state: latest
+

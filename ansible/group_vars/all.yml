@@ -1,0 +1,9 @@
+ansuser_name: manager
+ansuser_comment: "Management User"
+ansuser_group: wheel
+jumpbox_sshkey: files/id_rsa.pub
+ec2_user: ec2-user
+app_rep: <domain>/aws/nextjsapp.git # update your domain
+username: 
+personal_access_token: 
+version:
