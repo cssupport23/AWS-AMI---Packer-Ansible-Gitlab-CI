@@ -72,8 +72,8 @@ build:
 ```
 
 ### Explanation:
-1. **Variables**: Values such as SSM parameters, tokens, and the Git repository URL are fetched and stored in variables.
-2. **Before Script**: It installs required packages (`ansible`, `aws-cli`, `git`), retrieves public keys, tokens, and application version from AWS SSM, and clones the Next.js repository.
+1. **Variables**: Values such as SSM parameters, tokens, and the Git repository URL are fetched and stored in variables. T
+2. **Before Script**: It installs required packages (`ansible`, `aws-cli`, `git`), retrieves public keys, tokens, and application version from AWS SSM, and clones the Next.js repository. This code can be put into custom docker image, which then can be used the image to run the gitlab job.
 3. **Build Stage**: Runs Packer to build the AMI, logs the AMI ID, and stores it in AWS SSM for later use.
 
 ---
